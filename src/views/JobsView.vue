@@ -1,9 +1,9 @@
 <template>
-  <h1>Jobs</h1>
+  <h1>Users</h1>
   <div class="job" v-for="job in jobs" :key="job.id">
     <router-link :to="{ name: 'jobdetails', params: { id: job.id } }">
       <h2>
-        {{ job.title }}
+        {{ job.name }}
       </h2>
     </router-link>
   </div>
@@ -13,12 +13,14 @@
 export default {
   data() {
     return {
-      jobs: [
-        { title: "John UX Designer", id: 1, details: "lorem" },
-        { title: "John Web Developer", id: 2, details: "lorem" },
-        { title: "John Vue Developer", id: 3, details: "lorem" },
-      ],
+      jobs: [],
     };
+  },
+  mounted() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => (this.jobs = data))
+      .catch((err) => console.log(err.message));
   },
 };
 </script>
